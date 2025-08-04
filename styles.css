@@ -392,6 +392,7 @@ button i {
 
 .cliente-acciones {
     display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan a la siguiente línea */
     gap: 5px;
     margin-top: 5px;
 }
@@ -399,6 +400,17 @@ button i {
 .cliente-acciones button {
     padding: 3px 8px;
     font-size: 12px;
+    flex: 1 0 calc(50% - 10px); /* Hace que cada botón ocupe aproximadamente la mitad del espacio */
+    min-width: 100px; /* Ancho mínimo para que no se vean demasiado pequeños */
+    box-sizing: border-box; /* Asegura que el padding no afecte el ancho calculado */
+}
+
+/* Estilos específicos para pantallas más grandes */
+@media (min-width: 768px) {
+    .cliente-acciones button {
+        flex: 1 0 auto; /* Vuelve al comportamiento original en pantallas grandes */
+        min-width: auto;
+    }
 }
 
 .buscador {
