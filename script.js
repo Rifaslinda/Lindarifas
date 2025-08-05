@@ -2640,16 +2640,16 @@ function generarFactura(cliente, ancho) {
         .replace(/{fecha}/g, new Date().toLocaleDateString())
         .replace(/{hora}/g, new Date().toLocaleTimeString());
     
-    // Crear contenido de la factura optimizado para impresión térmica
+    // Crear contenido de la factura con fuentes aumentadas 2px
     const facturaContent = `
-        <div id="factura-impresion" style="width: ${ancho}mm; padding: 3mm; font-family: 'Courier New', monospace; font-size: ${ancho === 58 ? '11px' : '13px'}; line-height: 1.2; font-weight: normal;">
-            <h2 style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '13px' : '15px'}; font-weight: bold;">${titulo}</h2>
-            <div style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '10px' : '12px'}; white-space: pre-line;">${encabezado}</div>
+        <div id="factura-impresion" style="width: ${ancho}mm; padding: 3mm; font-family: 'Courier New', monospace; font-size: ${ancho === 58 ? '13px' : '15px'}; line-height: 1.2; font-weight: normal;">
+            <h2 style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '15px' : '17px'}; font-weight: bold;">${titulo}</h2>
+            <div style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '12px' : '14px'}; white-space: pre-line;">${encabezado}</div>
             <hr style="border-top: 1px dashed #000; margin: 4px 0;">
             <div style="margin: 4px 0; white-space: pre-line;">${cuerpo}</div>
             <hr style="border-top: 1px dashed #000; margin: 4px 0;">
-            <div style="text-align: center; font-size: ${ancho === 58 ? '10px' : '12px'}; margin: 4px 0; white-space: pre-line;">${pie}</div>
-            <div style="text-align: center; margin-top: 6px; font-size: ${ancho === 58 ? '9px' : '11px'};">${new Date().toLocaleString()}</div>
+            <div style="text-align: center; font-size: ${ancho === 58 ? '12px' : '14px'}; margin: 4px 0; white-space: pre-line;">${pie}</div>
+            <div style="text-align: center; margin-top: 6px; font-size: ${ancho === 58 ? '11px' : '13px'};">${new Date().toLocaleString()}</div>
         </div>
     `;
     
