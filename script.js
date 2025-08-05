@@ -483,13 +483,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function cargarDatos() {
     try {
         // Primero intentar con IndexedDB
-        const [rifasData, clientesData] = await Promise.all([
+        const [rifasData, clientesData, nombreAppData] = await Promise.all([
             obtenerTodosDatos('rifas'),
-            obtenerTodosDatos('clientes')
+            obtenerTodosDatos('clientes'),
+            obtenerConfiguracion('nombreApp')
         ]);
         
         rifas = rifasData || [];
         clientes = clientesData || [];
+        
+        // Cargar nombre de la app (primero IndexedDB, luego localStorage como fallback)
+        const nombreApp = nombreAppData || localStorage.getItem('nombreApp') || 'Rifas Sucre';
+        appTitle.textContent = nombreApp;
+        document.querySelector('#acceso-container h1').textContent = nombreApp;
         
         // Si no hay datos, intentar con localStorage
         if (rifas.length === 0 && localStorage.getItem('rifasSucre_rifas')) {
@@ -698,17 +704,29 @@ function mostrarModalCambiarNombre() {
     nombreModal.classList.remove('hidden');
 }
 
-function guardarNuevoNombre() {
+async function guardarNuevoNombre() {
     const nuevoNombre = document.getElementById('nuevo-nombre').value.trim();
     if (!nuevoNombre) {
         alert('Por favor ingresa un nombre válido');
         return;
     }
     
-    localStorage.setItem('nombreApp', nuevoNombre);
-    appTitle.textContent = nuevoNombre;
-    nombreModal.classList.add('hidden');
-    document.querySelector('#acceso-container h1').textContent = nuevoNombre;
+    try {
+        // Guardar en localStorage (para compatibilidad)
+        localStorage.setItem('nombreApp', nuevoNombre);
+        
+        // Guardar en IndexedDB para persistencia
+        await guardarConfiguracion('nombreApp', nuevoNombre);
+        
+        // Actualizar la interfaz
+        appTitle.textContent = nuevoNombre;
+        document.querySelector('#acceso-container h1').textContent = nuevoNombre;
+        
+        nombreModal.classList.add('hidden');
+    } catch (error) {
+        console.error('Error al guardar el nombre:', error);
+        alert('Error al guardar el nombre. Intenta nuevamente.');
+    }
 }
 
 // ====== 5. VALIDACIÓN ACTUALIZADA ======
