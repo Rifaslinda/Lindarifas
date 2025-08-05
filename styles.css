@@ -1071,3 +1071,31 @@ button i {
 #btn-plantilla-factura i {
     margin-right: 8px;
 }
+
+/* Agrega esto al final de tu styles.css */
+#manual-content h3 {
+    color: #2c3e50;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+#manual-content h4 {
+    color: #3498db;
+    margin-top: 15px;
+    margin-bottom: 8px;
+}
+
+#manual-content ul, #manual-content ol {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+#manual-content li {
+    margin-bottom: 5px;
+}
+
+#manual-content strong {
+    color: #2c3e50;
+}
