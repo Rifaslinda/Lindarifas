@@ -2640,16 +2640,16 @@ function generarFactura(cliente, ancho) {
         .replace(/{fecha}/g, new Date().toLocaleDateString())
         .replace(/{hora}/g, new Date().toLocaleTimeString());
     
-    // Crear contenido de la factura
+    // Crear contenido de la factura optimizado para impresión térmica
     const facturaContent = `
-        <div id="factura-impresion" style="width: ${ancho}mm; padding: 5mm; font-family: Arial, sans-serif; font-size: ${ancho === 58 ? '10px' : '12px'};">
-            <h2 style="text-align: center; margin-bottom: 5px; font-size: ${ancho === 58 ? '14px' : '16px'};">${titulo}</h2>
-            <div style="text-align: center; margin-bottom: 10px; font-size: ${ancho === 58 ? '10px' : '12px'};">${encabezado.replace(/\n/g, '<br>')}</div>
-            <hr style="border-top: 1px dashed #000; margin: 5px 0;">
-            <div style="margin-bottom: 10px;">${cuerpo.replace(/\n/g, '<br>')}</div>
-            <hr style="border-top: 1px dashed #000; margin: 5px 0;">
-            <div style="text-align: center; font-size: ${ancho === 58 ? '10px' : '12px'};">${pie.replace(/\n/g, '<br>')}</div>
-            <div style="text-align: center; margin-top: 10px; font-size: ${ancho === 58 ? '8px' : '10px'};">${new Date().toLocaleString()}</div>
+        <div id="factura-impresion" style="width: ${ancho}mm; padding: 2mm; font-family: Arial, sans-serif; font-size: ${ancho === 58 ? '12px' : '14px'}; line-height: 1.2;">
+            <h2 style="text-align: center; margin: 2px 0; font-size: ${ancho === 58 ? '14px' : '16px'}; font-weight: bold;">${titulo}</h2>
+            <div style="text-align: center; margin: 2px 0; font-size: ${ancho === 58 ? '10px' : '12px'}; white-space: pre-line;">${encabezado}</div>
+            <hr style="border-top: 1px dashed #000; margin: 3px 0;">
+            <div style="margin: 3px 0; white-space: pre-line;">${cuerpo}</div>
+            <hr style="border-top: 1px dashed #000; margin: 3px 0;">
+            <div style="text-align: center; font-size: ${ancho === 58 ? '10px' : '12px'}; margin: 3px 0; white-space: pre-line;">${pie}</div>
+            <div style="text-align: center; margin-top: 5px; font-size: ${ancho === 58 ? '8px' : '10px'};">${new Date().toLocaleString()}</div>
         </div>
     `;
     
@@ -2662,20 +2662,39 @@ function generarFactura(cliente, ancho) {
             <title>Factura ${cliente.nombre}</title>
             <style>
                 @media print {
-                    body { margin: 0; padding: 0; }
-                    button { display: none; }
+                    body { 
+                        margin: 0 !important; 
+                        padding: 0 !important;
+                        width: ${ancho}mm;
+                    }
+                    #factura-impresion {
+                        width: ${ancho}mm !important;
+                        padding: 1mm !important;
+                        margin: 0 !important;
+                    }
+                    button { display: none !important; }
+                    hr { border-top: 1px solid #000 !important; }
+                }
+                @page {
+                    size: ${ancho}mm auto;
+                    margin: 0;
                 }
             </style>
         </head>
-        <body>
+        <body style="margin: 0; padding: 0;">
             ${facturaContent}
-            <div style="text-align: center; margin-top: 20px;">
-                <button onclick="window.print()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">Imprimir</button>
-                <button onclick="window.close()" style="padding: 10px 20px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancelar</button>
+            <div style="text-align: center; margin-top: 10px;">
+                <button onclick="window.print()" style="padding: 8px 15px; background: #3498db; color: white; border: none; border-radius: 3px; cursor: pointer; margin-right: 10px;">Imprimir</button>
+                <button onclick="window.close()" style="padding: 8px 15px; background: #e74c3c; color: white; border: none; border-radius: 3px; cursor: pointer;">Cancelar</button>
             </div>
+            <script>
+                // Auto-enfocar el botón de imprimir
+                window.onload = function() {
+                    document.querySelector('button').focus();
+                };
+            </script>
         </body>
         </html>
     `);
     ventanaImpresion.document.close();
-    
 }
