@@ -239,6 +239,135 @@ let paginaActualClientes = 1;
 const clientesPorPagina = 10;let codigosValidos = JSON.parse(localStorage.getItem('codigosValidos') || "[]");
 let codigosUsados = JSON.parse(localStorage.getItem('codigosUsados') || "[]");
 
+// Configurar el manual de usuario
+const manualContent = `
+<h3>1. Introducción</h3>
+<p>Este sistema está diseñado para gestionar rifas, controlar la venta de números y mantener un registro organizado de clientes. Permite:</p>
+<ul>
+    <li>Registrar números vendidos, apartados o pagados.</li>
+    <li>Generar tickets y comprobantes de venta (sin validez tributaria).</li>
+    <li>Enviar mensajes automatizados a clientes vía WhatsApp.</li>
+    <li>Exportar datos para respaldo y análisis.</li>
+</ul>
+<p><strong>Nota importante:</strong><br>
+Los tickets, comprobantes o documentos generados por este sistema no son facturas legales y no tienen efectos tributarios. Son únicamente para control interno y registro de ventas.</p>
+
+<h3>2. Acceso al Sistema</h3>
+<p>Para ingresar, introduzca un código de acceso de 8 dígitos proporcionado por el administrador.</p>
+
+<h3>3. Menú Principal</h3>
+<p>El sistema cuenta con las siguientes secciones:</p>
+<ul>
+    <li><strong>Rifas:</strong> Gestión de todas las rifas activas.</li>
+    <li><strong>Clientes:</strong> Registro de participantes y sus números comprados.</li>
+    <li><strong>Respaldo:</strong> Opciones para guardar o recuperar datos.</li>
+    <li><strong>Clientes Permanentes:</strong> Base de datos de clientes frecuentes.</li>
+</ul>
+
+<h3>4. Gestión de Rifas</h3>
+<h4>Crear una nueva rifa</h4>
+<ol>
+    <li>Haga clic en "Nueva Rifa".</li>
+    <li>Complete los datos:
+        <ul>
+            <li>Nombre de la rifa (ejemplo: "Rifa Navideña 2024").</li>
+            <li>Total de números (ejemplo: 100).</li>
+            <li>Columnas por grilla (organización visual).</li>
+            <li>Números por grilla (ejemplo: 25 se dividirá en 4 ya que es de 100 el total en este caso).</li>
+            <li>Precio por número (ejemplo: $10).</li>
+        </ul>
+    </li>
+</ol>
+
+<h4>Acciones disponibles por rifa</h4>
+<ul>
+    <li>✅ <strong>Activar/Desactivar:</strong> Seleccione qué rifa está actualmente en venta.</li>
+    <li>🔢 <strong>Ver cuadrícula:</strong> Visualice todos los números (disponibles, apartados o pagados).</li>
+    <li>✏️ <strong>Editar:</strong> Modifique los datos de la rifa.</li>
+    <li>🗑️ <strong>Eliminar:</strong> Borre la rifa (se eliminarán también los clientes asociados).</li>
+    <li>📊 <strong>Generar CSV:</strong> Exporte un listado de números con su estado (útil para Excel).</li>
+</ul>
+
+<h3>5. Gestión de Clientes</h3>
+<h4>Agregar un nuevo cliente</h4>
+<ol>
+    <li>Seleccione una rifa activa.</li>
+    <li>Haga clic en "Nuevo Cliente".</li>
+    <li>Complete los datos:
+        <ul>
+            <li>Nombre.</li>
+            <li>Teléfono (para contacto por WhatsApp).</li>
+            <li>Números comprados (puede usar rangos como "001-005" o separar por comas: "001,005,010").</li>
+            <li>Estado (Apartado o Pagado).</li>
+        </ul>
+    </li>
+</ol>
+
+<h4>Acciones por cliente</h4>
+<ul>
+    <li>📲 <strong>WhatsApp:</strong> Envíe un mensaje automático con sus números y estado.</li>
+    <li>🎫 <strong>Ticket:</strong> Genere un comprobante para enviar al cliente (sin validez fiscal).</li>
+    <li>✏️ <strong>Editar:</strong> Modifique datos del cliente (nombre, teléfono o números).</li>
+    <li>🔄 <strong>Alternar estado:</strong> Cambie todos sus números a Pagado o Apartado en un solo paso.</li>
+</ul>
+
+<h4>Gestión de números individuales</h4>
+<p>Haga clic en cualquier número para:</p>
+<ul>
+    <li>Cambiar su estado (de Apartado a Pagado o viceversa).</li>
+    <li>Eliminarlo del cliente.</li>
+</ul>
+
+<h3>6. Clientes Permanentes</h3>
+<p>Base de datos para guardar información de clientes frecuentes y reutilizarla en futuras rifas.</p>
+
+<h4>Funciones disponibles</h4>
+<ul>
+    <li><strong>Agregar existentes:</strong> Al registrar un cliente nuevo, busque en la base para evitar duplicados.</li>
+    <li><strong>Editar información:</strong> Actualice nombres o teléfonos.</li>
+    <li><strong>Exportar/Importar:</strong> Guarde la lista en CSV o cargue datos desde un archivo.</li>
+</ul>
+
+<h3>7. Plantillas y Personalización</h3>
+<h4>Mensajes para WhatsApp</h4>
+<ul>
+    <li><strong>Mensaje estándar:</strong> Texto que se envía al cliente al asignar números.</li>
+    <li><strong>Recordatorio para rezagados:</strong> Mensaje para clientes con pagos pendientes.</li>
+</ul>
+
+<h4>Diseño de Tickets</h4>
+<p>Personalice el formato de los tickets que se envían a los clientes (no es un documento fiscal).</p>
+
+<h4>Configuración de impresión</h4>
+<p>Ajuste el ancho (58mm o 80mm) y tamaño de fuente para comprobantes impresos.</p>
+
+<h3>8. Respaldo de Datos</h3>
+<ul>
+    <li><strong>Crear respaldo:</strong> Guarde toda la información en un archivo seguro.</li>
+    <li><strong>Restaurar:</strong> Recupere datos desde una copia anterior en caso de pérdida.</li>
+</ul>
+
+<h3>9. Consejos Rápidos</h3>
+<ul>
+    <li>✔ <strong>Use rangos para números:</strong> "001-010" equivale a 10 números seguidos.</li>
+    <li>✔ <strong>Busque clientes antes de registrar:</strong> Evite duplicados en la base de datos.</li>
+    <li>✔ <strong>Exporte respaldos regularmente:</strong> Prevenga pérdida de información.</li>
+    <li>✔ <strong>Filtros útiles:</strong> Encuentre rápidamente números disponibles o clientes con pagos pendientes.</li>
+</ul>
+
+<h3>10. Soporte</h3>
+<p>Para problemas técnicos, contacte al administrador del sistema.</p>
+
+<p><strong>Nota final:</strong><br>
+Este sistema es una herramienta de gestión interna. Los tickets generados no sustituyen facturas legales y no tienen validez fiscal.</p>
+`;
+
+// Configurar evento para mostrar el manual
+document.getElementById('btn-manual').addEventListener('click', function() {
+    document.getElementById('manual-content').innerHTML = manualContent;
+    document.getElementById('manual-modal').classList.remove('hidden');
+});
+
 async function initPersistentStorage() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -520,12 +649,17 @@ async function verificarCodigoGuardado(codigo) {
 function configurarEventos() {
     // Acceso
     btnAcceder.addEventListener('click', validarAcceso);
-    // btnPrueba.removeEventListener('click', activarPrueba); // Elimina esta línea si existe
     btnSuperusuario.addEventListener('click', mostrarModalSuperusuario);
     btnContacto.addEventListener('click', () => {
         window.open('https://wa.me/584245244171', '_blank');
     });
     
+    // Manual de usuario
+    document.getElementById('btn-manual').addEventListener('click', function() {
+        document.getElementById('manual-content').innerHTML = manualContent;
+        document.getElementById('manual-modal').classList.remove('hidden');
+    });
+
     // Menú principal
     btnRifas.addEventListener('click', () => mostrarSeccion('rifas'));
     btnClientes.addEventListener('click', () => mostrarSeccion('clientes'));
@@ -535,9 +669,9 @@ function configurarEventos() {
     btnCambiarNombre.addEventListener('click', mostrarModalCambiarNombre);
     document.getElementById('btn-guardar-nombre').addEventListener('click', guardarNuevoNombre);
     
-document.getElementById('btn-guardar-plantilla-ticket').addEventListener('click', guardarPlantillaTicket);
-document.getElementById('btn-plantilla-factura').addEventListener('click', mostrarModalPlantillaFactura);
-document.getElementById('btn-guardar-plantilla-factura').addEventListener('click', guardarPlantillaFactura);
+    document.getElementById('btn-guardar-plantilla-ticket').addEventListener('click', guardarPlantillaTicket);
+    document.getElementById('btn-plantilla-factura').addEventListener('click', mostrarModalPlantillaFactura);
+    document.getElementById('btn-guardar-plantilla-factura').addEventListener('click', guardarPlantillaFactura);
 
     // Modales
     document.querySelectorAll('.close-modal').forEach(btn => {
@@ -2618,6 +2752,16 @@ function generarFactura(cliente, ancho) {
     const precioUnitario = rifa.precio || 0;
     const total = cantidadNumeros * precioUnitario;
     
+    // Calcular pagado y deuda
+    let pagado = 0;
+    cliente.numeros.split(',').forEach(numCompleto => {
+        const estado = numCompleto.includes(':') ? numCompleto.split(':')[1] : cliente.estado;
+        if (estado === 'pagado') {
+            pagado += precioUnitario;
+        }
+    });
+    const deuda = total - pagado;
+    
     // Limpiar números para mostrar
     const numerosLimpios = cliente.numeros.split(',').map(num => {
         return num.includes(':') ? num.split(':')[0] : num;
@@ -2626,10 +2770,10 @@ function generarFactura(cliente, ancho) {
     // Obtener plantilla de factura
     const titulo = localStorage.getItem('facturaTitulo') || 'FACTURA DE VENTA';
     const encabezado = localStorage.getItem('facturaEncabezado') || `${localStorage.getItem('nombreApp') || 'Rifas Sucre'}\nTeléfono: \nDirección: `;
-    let cuerpo = localStorage.getItem('facturaCuerpo') || 'Cliente: {nombre}\nRifa: {rifa}\nNúmeros: {numeros}\nCantidad: {cantidad}\nPrecio unitario: {precio}\nTotal: {total}';
-    const pie = localStorage.getItem('facturaPie') || '¡Gracias por su compra!\nVálido como factura';
+    let cuerpo = localStorage.getItem('facturaCuerpo') || 'Cliente: {nombre}\nRifa: {rifa}\nNúmeros: {numeros}\nCantidad: {cantidad}\nPrecio unitario: {precio}\nTotal: {total}\nPagado: {pagado}\nDeuda: {deuda}';
+    const pie = localStorage.getItem('facturaPie') || '¡Gracias por su compra!\nDocumento sin validez fiscal';
     
-    // Reemplazar variables
+    // Reemplazar variables (incluyendo las nuevas)
     cuerpo = cuerpo
         .replace(/{nombre}/g, cliente.nombre)
         .replace(/{rifa}/g, rifa.nombre)
@@ -2637,6 +2781,8 @@ function generarFactura(cliente, ancho) {
         .replace(/{cantidad}/g, cantidadNumeros)
         .replace(/{precio}/g, precioUnitario.toFixed(2))
         .replace(/{total}/g, total.toFixed(2))
+        .replace(/{pagado}/g, pagado.toFixed(2))
+        .replace(/{deuda}/g, deuda.toFixed(2))
         .replace(/{fecha}/g, new Date().toLocaleDateString())
         .replace(/{hora}/g, new Date().toLocaleTimeString());
     
