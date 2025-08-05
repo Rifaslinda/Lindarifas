@@ -27,9 +27,9 @@
        
         <button id="btn-superusuario">Superusuario</button>
         <button id="btn-contacto">Contacto <i class="fab fa-whatsapp"></i></button>
-        <button id="btn-tutorial" onclick="window.open('https://www.youtube.com/watch?v=5fPG_L41tSo', '_blank')">
-            <i class="fas fa-graduation-cap"></i> Tutorial
-        </button>
+        <button id="btn-manual">
+    <i class="fas fa-book"></i> Manual
+</button>
     </div>
 </div>
 
@@ -74,6 +74,17 @@
             <button id="btn-superusuario-acceder">Acceder</button>
         </div>
     </div>
+
+<!-- Modal del Manual -->
+<div id="manual-modal" class="modal hidden">
+    <div class="modal-content" style="max-width: 800px; max-height: 90vh;">
+        <span class="close-modal">&times;</span>
+        <h2>Manual de Usuario - Sistema de Gestión de Rifas</h2>
+        <div id="manual-content" style="overflow-y: auto; max-height: 80vh; padding-right: 10px;">
+            <!-- El contenido se insertará aquí con JavaScript -->
+        </div>
+    </div>
+</div>
 
     <!-- Modal de Cuadrícula Completa -->
     <div id="cuadricula-modal" class="modal hidden">
