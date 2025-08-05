@@ -2642,14 +2642,14 @@ function generarFactura(cliente, ancho) {
     
     // Crear contenido de la factura optimizado para impresión térmica
     const facturaContent = `
-        <div id="factura-impresion" style="width: ${ancho}mm; padding: 2mm; font-family: Arial, sans-serif; font-size: ${ancho === 58 ? '12px' : '14px'}; line-height: 1.2;">
-            <h2 style="text-align: center; margin: 2px 0; font-size: ${ancho === 58 ? '14px' : '16px'}; font-weight: bold;">${titulo}</h2>
-            <div style="text-align: center; margin: 2px 0; font-size: ${ancho === 58 ? '10px' : '12px'}; white-space: pre-line;">${encabezado}</div>
-            <hr style="border-top: 1px dashed #000; margin: 3px 0;">
-            <div style="margin: 3px 0; white-space: pre-line;">${cuerpo}</div>
-            <hr style="border-top: 1px dashed #000; margin: 3px 0;">
-            <div style="text-align: center; font-size: ${ancho === 58 ? '10px' : '12px'}; margin: 3px 0; white-space: pre-line;">${pie}</div>
-            <div style="text-align: center; margin-top: 5px; font-size: ${ancho === 58 ? '8px' : '10px'};">${new Date().toLocaleString()}</div>
+        <div id="factura-impresion" style="width: ${ancho}mm; padding: 3mm; font-family: 'Courier New', monospace; font-size: ${ancho === 58 ? '11px' : '13px'}; line-height: 1.2; font-weight: normal;">
+            <h2 style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '13px' : '15px'}; font-weight: bold;">${titulo}</h2>
+            <div style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '10px' : '12px'}; white-space: pre-line;">${encabezado}</div>
+            <hr style="border-top: 1px dashed #000; margin: 4px 0;">
+            <div style="margin: 4px 0; white-space: pre-line;">${cuerpo}</div>
+            <hr style="border-top: 1px dashed #000; margin: 4px 0;">
+            <div style="text-align: center; font-size: ${ancho === 58 ? '10px' : '12px'}; margin: 4px 0; white-space: pre-line;">${pie}</div>
+            <div style="text-align: center; margin-top: 6px; font-size: ${ancho === 58 ? '9px' : '11px'};">${new Date().toLocaleString()}</div>
         </div>
     `;
     
@@ -2669,7 +2669,7 @@ function generarFactura(cliente, ancho) {
                     }
                     #factura-impresion {
                         width: ${ancho}mm !important;
-                        padding: 1mm !important;
+                        padding: 2mm 3mm !important;
                         margin: 0 !important;
                     }
                     button { display: none !important; }
@@ -2677,7 +2677,7 @@ function generarFactura(cliente, ancho) {
                 }
                 @page {
                     size: ${ancho}mm auto;
-                    margin: 0;
+                    margin: 2mm;
                 }
             </style>
         </head>
