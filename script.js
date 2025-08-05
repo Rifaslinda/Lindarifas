@@ -2788,14 +2788,14 @@ function generarFactura(cliente, ancho) {
     
     // Crear contenido de la factura con ajustes específicos de tamaño
     const facturaContent = `
-    <div id="factura-impresion" style="width: ${ancho}mm; padding: 3mm 3mm 3mm 1mm; font-family: 'Courier New', monospace; font-size: ${ancho === 58 ? '14px' : '14px'}; line-height: 1.2; font-weight: normal; margin-left: -2mm;">
-        <h2 style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '16px' : '16px'}; font-weight: bold; transform: translateX(-2mm);">${titulo}</h2>
-        <div style="text-align: center; margin: 3px 0; font-size: ${ancho === 58 ? '13px' : '13px'}; white-space: pre-line; transform: translateX(-2mm);">${encabezado}</div>
+    <div id="factura-impresion" style="width: ${ancho}mm; padding: 3mm; font-family: 'Courier New', monospace; font-size: ${ancho === 58 ? '14px' : '14px'}; line-height: 1.2; font-weight: normal;">
+        <h2 style="margin: 3px 0; font-size: ${ancho === 58 ? '16px' : '16px'}; font-weight: bold; text-align: left;">${titulo}</h2>
+        <div style="margin: 3px 0; font-size: ${ancho === 58 ? '13px' : '13px'}; white-space: pre-line; text-align: left;">${encabezado}</div>
         <hr style="border-top: 1px dashed #000; margin: 4px 0;">
         <div style="margin: 4px 0; white-space: pre-line;">${cuerpo}</div>
         <hr style="border-top: 1px dashed #000; margin: 4px 0;">
-        <div style="text-align: center; font-size: ${ancho === 58 ? '13px' : '13px'}; margin: 4px 0; white-space: pre-line; transform: translateX(-2mm);">${pie}</div>
-        <div style="text-align: center; margin-top: 6px; font-size: ${ancho === 58 ? '12px' : '12px'}; transform: translateX(-2mm);">${new Date().toLocaleString()}</div>
+        <div style="font-size: ${ancho === 58 ? '13px' : '13px'}; margin: 4px 0; white-space: pre-line; text-align: left;">${pie}</div>
+        <div style="margin-top: 6px; font-size: ${ancho === 58 ? '12px' : '12px'}; text-align: left;">${new Date().toLocaleString()}</div>
     </div>
 `;
     
